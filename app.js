@@ -13,8 +13,19 @@ var collectionRouter = require('./routes/collections');
 var resumeTemplatesRouter = require('./routes/resumeTemplates');
 var mallsRouter = require('./routes/malls');
 var clubsRouter = require('./routes/clubs');
+var articlesRouter = require('./routes/articles');
 
 var app = express();
+// 自定义跨域中间件
+var allowCors = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials','true');
+  next();
+};
+app.use(allowCors);//使用跨域中间件
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +43,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
 app.use(cookieParser());
-// 这里配置了静态资源，所以访问图片直接http://localhost:3000/images/homeList1.png可以拿到
+// 这里配置了静态资源，所以访问图片直接http://localhost:3001/images/homeList1.png可以拿到
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
@@ -42,6 +53,10 @@ app.use('/resumeTemplates', resumeTemplatesRouter);
 app.use('/collections', collectionRouter);
 app.use('/malls', mallsRouter);
 app.use('/clubs', clubsRouter);
+app.use('/articles', articlesRouter);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

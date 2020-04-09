@@ -55,7 +55,7 @@ router.post('/uploadImg',multer({
     //  console.log(fileInfo,"fileInfo");
         malls.find(function(err, docs) {
         let params = {
-            imgUrl: "F:/myproject/zhimi/node-zhimi/upload/"+file.originalname,
+            imgUrl: "http://localhost:3001/upload/"+file.originalname,
             mallId:mallId,
             indexs: mallId
         }

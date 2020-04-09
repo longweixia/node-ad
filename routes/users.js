@@ -5,7 +5,7 @@ var User = require('./../models/user')
 var mongoose = require('mongoose');
 
 var jwt = require('jsonwebtoken'); // 使用jwt签名
-mongoose.connect('mongodb://localhost:27017/zhimi'
+mongoose.connect('mongodb://localhost:27017/ad'
 // , {
 //   useMongoClient: true
 // }
