@@ -177,18 +177,15 @@ router.get('/get', function(req, res, next) {
     let flag = req.param("flag")
     let idIndex = req.param("idIndex")
     articles.findOne(param, function(err0, doc0) {
-        if(flag=="all"){
-            let obj = doc0.article["baidu"]
-            .concat(doc0.article["sanliuling"]).
-            concat(doc0.article["gogle"])
-            .concat(doc0.article["sougou"])
-            .concat(doc0.article["tuiguang"])
+        if(err0){
             res.json({
-                status: "0",
-                msg: "获取成功",
-                resulet: obj
+                status: "1",
+                msg: "查询失败",
+                resulet: ""
             })
-        }else{
+            return false
+        }
+        if(idIndex){//如果idIndex存在，就只查某一篇文章
             console.log(doc0)
             doc0.article[flag].forEach((item,index)=>{
                 if(item.idIndex == idIndex){
@@ -199,6 +196,29 @@ router.get('/get', function(req, res, next) {
                     })
                 }
             })
+           
+        }//如果不存在根据types来查询一个集合或者所有文章
+        else{
+            if(flag=="all"){//查所有
+                let obj = doc0.article["baidu"]
+            .concat(doc0.article["sanliuling"]).
+            concat(doc0.article["gogle"])
+            .concat(doc0.article["sougou"])
+            .concat(doc0.article["tuiguang"])
+            res.json({
+                status: "0",
+                msg: "获取成功",
+                resulet: obj
+            })
+            }else{//查集合
+                let obj = doc0.article[flag]
+                res.json({
+                    status: "0",
+                    msg: "获取成功",
+                    resulet: obj
+                })
+            }
+            
            
         }
         // console.log(doc0)
