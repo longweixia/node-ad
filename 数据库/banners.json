@@ -1,0 +1,23 @@
+{ 
+    "_id" : ObjectId("5e9295e5c58f801ea8461917"), 
+    "bannerList" : [
+        {
+            "_id" : ObjectId("5e92e6bc2d79e115d42b3ace"), 
+            "url" : "http://47.103.40.123:3001/images/coverImg/timg.jpg", 
+            "name" : "轮播1", 
+            "times" : "04 09 12:56", 
+            "routerUrl" : "http://localhost:8082/#/articleContent?articleIndex=2&types=baidu&idIndex=3", 
+            "sort" : NumberInt(1), 
+            "show" : NumberInt(1), 
+            "id" : NumberInt(1)
+        }, 
+        {
+            "_id" : ObjectId("5e95cc2fcea140208cc750db"), 
+            "url" : "3", 
+            "name" : "333334444444", 
+            "show" : NumberInt(1), 
+            "id" : NumberInt(2)
+        }
+    ], 
+    "__v" : NumberInt(21)
+}

@@ -1,0 +1,30 @@
+{ 
+    "_id" : ObjectId("5e9337420100bb1314604eff"), 
+    "listTop" : [
+        {
+            "_id" : ObjectId("5e9337420100bb1314604f00"), 
+            "url" : "http://47.103.40.123:3001/images/coverImg/u=117857351,4252464750&fm=26&gp=0.jpg", 
+            "name" : "1", 
+            "times" : "04 09 12:56", 
+            "routerUrl" : "baidu1", 
+            "show" : NumberInt(1), 
+            "types" : "top", 
+            "idIndex" : NumberInt(1), 
+            "ids" : "top1"
+        }
+    ], 
+    "listBottom" : [
+        {
+            "_id" : ObjectId("5e9337d78ff05020f0019b24"), 
+            "url" : "http://47.103.40.123:3001/images/coverImg/timg.jpg", 
+            "name" : "223242424", 
+            "times" : "04 09 12:56", 
+            "routerUrl" : "2", 
+            "show" : NumberInt(1), 
+            "types" : "buttom", 
+            "idIndex" : NumberInt(1), 
+            "ids" : "buttom1"
+        }
+    ], 
+    "__v" : NumberInt(15)
+}

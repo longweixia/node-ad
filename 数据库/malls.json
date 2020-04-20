@@ -1,0 +1,5 @@
+{ 
+    "_id" : ObjectId("5e908bcee8594f1cf4ec6a9d"), 
+    "imgUrl" : "http://localhost:3001/upload/coverImg/模板1.png", 
+    "__v" : NumberInt(0)
+}
