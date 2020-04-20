@@ -14,6 +14,9 @@ var resumeTemplatesRouter = require('./routes/resumeTemplates');
 var mallsRouter = require('./routes/malls');
 var clubsRouter = require('./routes/clubs');
 var articlesRouter = require('./routes/articles');
+var bannersRouter = require('./routes/banners');
+var sidebarAdImgsRouter = require('./routes/sidebarAdImgs');
+var friendLinksRouter = require('./routes/friendLinks');
 
 var app = express();
 // 自定义跨域中间件
@@ -53,7 +56,10 @@ app.use('/resumeTemplates', resumeTemplatesRouter);
 app.use('/collections', collectionRouter);
 app.use('/malls', mallsRouter);
 app.use('/clubs', clubsRouter);
-app.use('/articles', articlesRouter);
+app.use('/articles', articlesRouter);//文章
+app.use('/banners', bannersRouter);//轮播图
+app.use('/sidebarAdImgs', sidebarAdImgsRouter);//侧边广告图
+app.use('/friendLinks', friendLinksRouter);//友情链接
 
 
 

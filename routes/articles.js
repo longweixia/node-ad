@@ -231,5 +231,46 @@ router.get('/get', function(req, res, next) {
 
 });
 
+//继续阅读
+router.get('/getKeep', function(req, res, next) {
+    var param = {
+        userName: req.param("userName"),
+    }
+    let flag = req.param("flag")
+    // let idIndex = req.param("idIndex")
+    articles.findOne(param, function(err0, doc0) {
+        if(err0){
+            res.json({
+                status: "1",
+                msg: "查询失败",
+                resulet: ""
+            })
+            return false
+        }
+        let ary=[]
+            doc0.article[flag].forEach((item,index)=>{
+             let obj ={};
+             obj.title=item.title
+             obj.types=item.types
+             obj.idIndex=item.idIndex
+             ary.push(obj)
+             if(ary.length>4){
+                 return
+             }
+                 
+            })
+               //找到该文章的后4篇
+               res.json({
+                status: "0",
+                msg: "获取成功",
+                resulet: ary
+            })
+        
+           
+        
+    })
+
+});
+
 
 module.exports = router;

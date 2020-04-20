@@ -74,7 +74,8 @@ router.post('/uploadImg',multer({
                     status: "0",
                     msg: "上传成功",
                     result:{
-                        url:"http://localhost:3001/images/coverImg/"+file.originalname,
+                        // url:"http://localhost:3001/images/coverImg/"+file.originalname,
+                        url:"http://47.103.40.123:3001/images/coverImg/"+file.originalname,
                     }
                 });
             // }
