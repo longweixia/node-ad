@@ -17,6 +17,7 @@ var articlesRouter = require('./routes/articles');
 var bannersRouter = require('./routes/banners');
 var sidebarAdImgsRouter = require('./routes/sidebarAdImgs');
 var friendLinksRouter = require('./routes/friendLinks');
+var commentsRouter = require('./routes/comments');
 
 var app = express();
 // 自定义跨域中间件
@@ -60,6 +61,7 @@ app.use('/articles', articlesRouter);//文章
 app.use('/banners', bannersRouter);//轮播图
 app.use('/sidebarAdImgs', sidebarAdImgsRouter);//侧边广告图
 app.use('/friendLinks', friendLinksRouter);//友情链接
+app.use('/comments', commentsRouter);//评论
 
 
 
