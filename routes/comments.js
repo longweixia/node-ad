@@ -1,23 +1,23 @@
 var express = require('express');
 var router = express.Router();
-// var articles = require('./../models/article')
 var comments = require('./../models/comment')
-// var clubs = require('./../models/club')
-// var multer = require('multer');
-// let fs = require("fs");
-// let path = require("path");
-// var Collections = require('./../models/collection')
-
 // 提交评论
 router.post('/postComments', function(req, res, next) {
-    var param = {
-        userName: req.body.data.userName,
-    }
-    comments.findOne(param, function(err0, doc0) {
-        console.log(doc0, "查新")
+    let obj = req.body.data
+    comments.findOne(function(err0, doc0) {
+        let lists; //存数据的数据
         // 集合不存在，新建集合
         if (doc0 == "" || doc0 == null) {
-            comments.create(req.body.data, function(err, doc) {
+            //拼装数据
+            lists = {
+                comment: [{
+                    ids: obj.ids,
+                    types: obj.types,
+                    title: obj.title,
+                    list: [obj.list],
+                }]
+            }
+            comments.create(lists, function(err, doc) {
                 if (err) {
                     res.json({
                         status: "1",
@@ -32,43 +32,65 @@ router.post('/postComments', function(req, res, next) {
             })
         } else {
 
-            // // 如果当前的评论是空数组，或者不存在，直接push就行了,
-            // if (doc0.comment == "") {
-            doc0.comment.push(req.body.data.comment[0])
+            //  如果当前的评论是空数组，直接push就行了,
+            if (doc0.comment == "") {
 
-            // } //如果不是空数组
-            // else {
-            //     console.log(doc0.article[types],"====")
-            //     let len = doc0.article[types].length
-            //     articleObj[0].idIndex = doc0.article[types][len - 1].idIndex + 1
-            //     articleObj[0].id = types+articleObj[0].idIndex
-            //     doc0.article[types].push(articleObj[0])
-            // }
-            doc0.save(function(err1, doc1) {
-                if (err1) {
-                    res.json({
-                        status: "1",
-                        msg: "提交失败" + err1
-                    })
-                } else {
-                    res.json({
-                        status: "0",
-                        msg: "提交成功"
-                    })
+            } else {
+                // 如果不为空，判断文章id是否存在，及是否已有该文章的评论
+                for (let i = 0, t = doc0.comment; i < t.length; i++) {
+                    // 文章存在push
+                    if (t[i].ids == obj.ids) {
+                        doc0.comment[i].list.push(obj.list)
+                        doc0.save(function(err1, doc1) {
+                            if (err1) {
+                                res.json({
+                                    status: "1",
+                                    msg: "提交失败" + err1
+                                })
+                            } else {
+                                res.json({
+                                    status: "0",
+                                    msg: "提交成功"
+                                })
+                            }
+                        })
+                        return false
+                    }
                 }
-            })
-
-
-
+                // 不存在文章就是新建
+                //拼装数据
+                lists = {
+                    comment: [{
+                        ids: obj.ids,
+                        types: obj.types,
+                        title: obj.title,
+                        list: [obj.list],
+                    }]
+                }
+                doc0.comment.push(lists)
+                doc0.save(function(err2, doc2) {
+                    if (err2) {
+                        res.json({
+                            status: "1",
+                            msg: "提交失败" + err2
+                        })
+                    } else {
+                        res.json({
+                            status: "0",
+                            msg: "提交成功"
+                        })
+                    }
+                })
+            }
         }
-
     })
 });
 
 // 提交回复
 router.post('/postRelay', function(req, res, next) {
 
-    let indexs = req.body.data.base.indexs
+    let indexs = req.body.data.base.indexs  //文章的第几条评论
+    let ids = req.body.data.base.ids  //文章的第几条评论
     comments.findOne(function(err0, doc0) {
         // console.log(doc0.comment[0].context,"回复数据")
         if (err0) {
@@ -78,7 +100,11 @@ router.post('/postRelay', function(req, res, next) {
                 resulet: err0
             })
         } else {
-            doc0.comment[indexs].Reply.concat(req.body.data.relay)
+            doc0.comment.forEach((item,index)=>{
+                if(ids==item.ids){
+                    doc0.comment[index].list[indexs].Reply.push(req.body.data.Reply)
+                }
+            })
             doc0.save(function(err1, doc1) {
                 if (err1) {
                     res.json({
@@ -93,7 +119,7 @@ router.post('/postRelay', function(req, res, next) {
                 }
             })
         }
-      
+
     })
 
 
@@ -165,17 +191,8 @@ router.post('/edit', function(req, res, next) {
 
 // 读取评论
 router.get('/getComment', function(req, res, next) {
-    let idIndex = req.param("idIndex")
+    let ids = req.param("ids")
     comments.findOne(function(err0, doc0) {
-        // console.log(doc0, "评论数据")
-        // if (err0) {
-        //     res.json({
-        //         status: "1",
-        //         msg: "查询评论失败",
-        //         resulet: ""
-        //     })
-        //     return false
-        // }
         // 集合不存在，新建集合
         if (doc0 == "" || doc0 == null) {
             res.json({
@@ -183,21 +200,21 @@ router.get('/getComment', function(req, res, next) {
                 msg: "评论为空",
                 resulet: ""
             });
-            
-        }else{
+
+        } else {
             doc0.comment.forEach((item, index) => {
-                if (item.idIndex == idIndex) {
+                if (item.ids == ids) {
                     res.json({
                         status: "0",
                         msg: "获取成功",
-                        resulet: doc0.comment
+                        resulet: doc0.comment[index]
                     })
                     return false
                 }
-    
+
             })
         }
-     
+
 
 
 
