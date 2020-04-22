@@ -34,6 +34,29 @@ router.post('/postComments', function(req, res, next) {
 
             //  如果当前的评论是空数组，直接push就行了,
             if (doc0.comment == "") {
+                  //拼装数据
+                  lists = {
+                    comment: [{
+                        ids: obj.ids,
+                        types: obj.types,
+                        title: obj.title,
+                        list: [obj.list],
+                    }]
+                }
+                doc0.comment.push(lists)
+                doc0.save(function(err2, doc2) {
+                    if (err2) {
+                        res.json({
+                            status: "1",
+                            msg: "提交失败" + err2
+                        })
+                    } else {
+                        res.json({
+                            status: "0",
+                            msg: "提交成功"
+                        })
+                    }
+                })
 
             } else {
                 // 如果不为空，判断文章id是否存在，及是否已有该文章的评论
@@ -60,12 +83,10 @@ router.post('/postComments', function(req, res, next) {
                 // 不存在文章就是新建
                 //拼装数据
                 lists = {
-                    comment: [{
                         ids: obj.ids,
                         types: obj.types,
                         title: obj.title,
                         list: [obj.list],
-                    }]
                 }
                 doc0.comment.push(lists)
                 doc0.save(function(err2, doc2) {
@@ -81,7 +102,10 @@ router.post('/postComments', function(req, res, next) {
                         })
                     }
                 })
+                
             }
+
+            
         }
     })
 });
@@ -192,6 +216,8 @@ router.post('/edit', function(req, res, next) {
 // 读取评论
 router.get('/getComment', function(req, res, next) {
     let ids = req.param("ids")
+    // 如果ids是all查所有文章，否则，查某一篇文章
+    
     comments.findOne(function(err0, doc0) {
         // 集合不存在，新建集合
         if (doc0 == "" || doc0 == null) {
@@ -202,17 +228,31 @@ router.get('/getComment', function(req, res, next) {
             });
 
         } else {
-            doc0.comment.forEach((item, index) => {
-                if (item.ids == ids) {
-                    res.json({
-                        status: "0",
-                        msg: "获取成功",
-                        resulet: doc0.comment[index]
-                    })
-                    return false
-                }
-
-            })
+            if(ids!=="all"){
+                doc0.comment.forEach((item, index) => {
+                    if (item.ids == ids) {
+                        res.json({
+                            status: "0",
+                            msg: "获取成功",
+                            resulet: doc0.comment[index]
+                        })
+                        return false
+                    }
+    
+                })
+            }else{
+               
+                        res.json({
+                            status: "0",
+                            msg: "获取成功",
+                            resulet: doc0.comment
+                        })
+                   
+                    
+    
+               
+            }
+            
         }
 
 
