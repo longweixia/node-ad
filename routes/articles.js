@@ -200,11 +200,13 @@ router.get('/get', function(req, res, next) {
         } //如果不存在根据types来查询一个集合或者所有文章
         else {
             if (flag == "all") { //查所有
-                let obj = doc0.article["baidu"]
-                    .concat(doc0.article["sanliuling"]).
-                concat(doc0.article["gogle"])
-                    .concat(doc0.article["sougou"])
-                    .concat(doc0.article["tuiguang"])
+                let obj = doc0.article["tb"]
+                    .concat(doc0.article["wx"]).
+                concat(doc0.article["az"])
+                    .concat(doc0.article["ios"])
+                    .concat(doc0.article["xb"])
+                    .concat(doc0.article["gj"])
+                    .concat(doc0.article["cg"])
                 res.json({
                     status: "0",
                     msg: "获取成功",

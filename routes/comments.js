@@ -4,6 +4,7 @@ var comments = require('./../models/comment')
 // 提交评论
 router.post('/postComments', function(req, res, next) {
     let obj = req.body.data
+    obj.list.times = new Date
     comments.findOne(function(err0, doc0) {
         let lists; //存数据的数据
         // 集合不存在，新建集合
@@ -182,32 +183,39 @@ router.post('/delete', function(req, res, next) {
 });
 
 
-// 修改文章
-router.post('/edit', function(req, res, next) {
-    var param = {
-        userName: req.body.data.userName
-    }
-    let id = req.body.data.id
-    let types = req.body.data.types
-    articles.findOne(param, function(err, doc) {
+// 修改评论
+router.post('/commentEdit', function(req, res, next) {
+    let ids = req.body.data.list.ids
+    // let types = req.body.data.types
+    // let comment_id = req.body.data.comment_id//评论id
+    let list = req.body.data.list//评论内容
+    // let Reply_id = req.body.data.Reply_id//回复id
+    comments.findOne(function(err, doc) {
         // console.log(doc)
-        doc.article[types].forEach((item, index) => {
-            if (item.id == id) {
-                doc.article[types].splice(index, 1)
-                // console.log(doc.article.baidu[0].id)
-                doc.save(function(err1, doc1) {
-                    if (err1) {
-                        res.json({
-                            status: "1",
-                            msg: "删除失败" + err1
-                        })
-                    } else {
-                        res.json({
-                            status: "0",
-                            msg: "删除成功"
+        doc.comment.forEach((item, index) => {
+            if (item.ids==ids) {//找到文章
+                item.list.forEach((item1, index1) => {
+                    if (item1._id==list._id) {//找到评论
+                        // item1=list  直接这样赋值，会发现数据库没有更改
+                        item1.show=list.show
+                        item1.tops=list.tops
+                        item1.Reply=list.Reply
+                        console.log(item1,11111)
+                        doc.save(function(err1, doc1) {
+                            if (err1) {
+                                res.json({
+                                    status: "1",
+                                    msg: "修改失败" + err1
+                                })
+                            } else {
+                                res.json({
+                                    status: "0",
+                                    msg: "修改成功"
+                                })
+                            }
                         })
                     }
-                })
+                });
             }
         });
     })

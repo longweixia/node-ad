@@ -5,7 +5,7 @@ var commentSchema = new mongoose.Schema({
         title:String,//文章标题
         types: String, //文章类型,例如baidu,360,可能同时属于多个标签
         list:[{
-            idIndex: Number, //文章id
+            ids: String, //文章id
             tops: Number, //是否置顶，置顶1，不置顶0
             show: Number, //是否显示，1为是，0为否
             autor: String, //用户名
