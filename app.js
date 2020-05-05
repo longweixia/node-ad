@@ -14,6 +14,7 @@ var resumeTemplatesRouter = require('./routes/resumeTemplates');
 var mallsRouter = require('./routes/malls');
 var clubsRouter = require('./routes/clubs');
 var articlesRouter = require('./routes/articles');
+var appListsRouter = require('./routes/appLists');
 var bannersRouter = require('./routes/banners');
 var sidebarAdImgsRouter = require('./routes/sidebarAdImgs');
 var friendLinksRouter = require('./routes/friendLinks');
@@ -58,6 +59,7 @@ app.use('/collections', collectionRouter);
 app.use('/malls', mallsRouter);
 app.use('/clubs', clubsRouter);
 app.use('/articles', articlesRouter);//文章
+app.use('/appLists', appListsRouter);//软件
 app.use('/banners', bannersRouter);//轮播图
 app.use('/sidebarAdImgs', sidebarAdImgsRouter);//侧边广告图
 app.use('/friendLinks', friendLinksRouter);//友情链接
